@@ -1,0 +1,821 @@
+html,
+body {
+  overflow-y: hidden;
+  background-color: var(--app-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text);
+}
+
+p {
+  font-size: 0.9rem;
+  font-weight: 450;
+  margin-bottom: 1rem;
+  color: var(--gray);
+}
+
+.centered {
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 650;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+input, button {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.signin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.signin-form {
+  width: 300px;
+  padding: 1.2rem 1.5rem 1.2rem 1.5rem;
+  background-color: var(--event-bg);
+  border-radius: 3vh;
+  box-shadow: 0 0 0.8vh var(--primary-light);
+  font-size: 1rem;
+  text-align: center;
+}
+
+.signin-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--primary-light);
+  background-color: var(--input-bg);
+  border-radius: 6px;
+  color: var(--text);
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.password-field {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 1rem;
+}
+
+.signin-form input#password {
+  border-radius: 6px 0 0 6px;
+  margin: 0;
+}
+
+.toggle-password {
+  border: 1px solid var(--primary-light);
+  background-color: var(--input-bg);
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+}
+
+.signin-form input::placeholder {
+  color: var(--gray);
+}
+
+.signin-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0.4vh var(--primary-light);
+  background-color: var(--app-bg);
+}
+
+.signin-form .signin-button {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  background-color: var(--secondary);
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.signin-form .signin-button:hover {
+  background-color: var(--secondary-medium);
+}
+
+.signin-error {
+  color: var(--red);
+  margin-top: 0.5rem;
+}
+
+/* Setup modal */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--modal-overlay);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  padding: 1rem;
+}
+
+.modal-box {
+  width: 480px;
+  background-color: var(--modal-bg);
+  box-shadow: 0 0 20px var(--app-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: var(--text);
+}
+
+.modal-box h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.modal-actions.row {
+  flex-wrap: wrap;
+}
+
+.modal-actions.column {
+  gap: 0.6rem;
+  flex-direction: column;
+}
+
+.modal-button {
+  padding: 0.65rem 0.8rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--primary);
+  color: white;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.modal-button.secondary {
+  background-color: var(--secondary-button);
+  color: var(--text);
+}
+
+.modal-button.tertiary {
+  background-color: transparent;
+  color: var(--text);
+}
+
+.modal-button.tertiary:hover {
+  background-color: var(--app-bg);
+}
+
+.modal-button.tertiary:disabled,
+.modal-button.tertiary[disabled] {
+  color: var(--gray-medium);
+  cursor: not-allowed;
+}
+
+.modal-button.new-game {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
+.modal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.modal-list button {
+  width: 100%;
+  text-align: left;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.modal-list button:hover {
+  border-color: #0d6efd;
+  background: #f5f9ff;
+}
+
+.modal-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.modal-form label {
+  font-weight: 600;
+}
+
+.modal-form input[type="text"],
+.modal-form input[type="color"] {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.modal-error {
+  color: var(--red);
+  margin-top: 0.5rem;
+}
+
+.modal-view {
+  opacity: 1;
+  transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.25s ease;
+}
+
+.modal-view.hidden {
+  opacity: 0;
+  transform: translateY(-8px);
+  max-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* App content */
+
+.app-content {
+  height: 100vh;
+  width: 100vw;
+}
+
+.app-header {
+  position: fixed;
+  width: 100%;
+  height: 10vh;
+  z-index: 1000;
+  background: linear-gradient(var(--app-bg) 50%, #0000);
+}
+
+.app-header-content {
+  display: flex;
+  justify-content: space-between;
+  width: clamp(76vw, calc(50vw + 400px), 100vw);
+  margin: 0 auto;
+  padding: 1vh 0;
+}
+
+.app-header-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: calc(fit-content + 4rem);
+}
+
+.app-header-links span {
+  color: var(--gray);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.app-header-links span:hover {
+  text-decoration: none;
+  color: var(--text);
+}
+
+.account-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.account-button {
+  padding: 0.5vh 1vh;
+  border-radius: 9999px;
+  background-color: var(--secondary);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.account-button:hover {
+  background-color: var(--secondary-medium);
+}
+
+.account-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  min-width: 10rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background-color: var(--item-bg);
+  border: 1px solid var(--primary-light);
+  border-radius: 1.2rem;
+  box-shadow: 0 0 0.8vh var(--primary-light);
+  z-index: 1000;
+  padding: 0.5rem;
+}
+
+.account-menu.hidden {
+  display: none !important;
+}
+
+.account-menu-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 0.8rem;
+  color: var(--gray);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.account-menu-item:hover {
+  background-color: var(--app-bg);
+  color: var(--text);
+}
+
+.app-menu-toggle {
+  padding: 0.2vh 2vh;
+  border-radius: 9999px;
+  border: 1px solid var(--gray);
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+
+.app-menu-toggle:hover {
+  border-color: var(--text);
+}
+
+.app-header-links .auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.auth-hidden {
+  display: none !important;
+}
+
+.app-notice {
+  position: fixed;
+  bottom: 2px;
+  width: 100%;
+  text-align: center;
+  font-size: min(2.5vh, 1rem);
+  color: var(--gray);
+}
+
+.app-notice a {
+  color: var(--gray);
+  transition: color 0.2s;
+}
+
+.app-notice a:hover {
+  text-decoration: none;
+  color: var(--text);
+}
+
+.device-warning {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--app-bg);
+  color: var(--white);
+  font-size: 4vh;
+  font-weight: 600;
+  text-align: center;
+}
+
+.app {
+  height: 100vh;
+  width: clamp(76vw, calc(50vw + 400px), 100vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+  gap: 3vw;
+}
+
+.app * {
+  user-select: none;
+}
+
+.app-logo-container {
+  display: flex;
+  gap: 0.8vw;
+}
+
+.app-logo {
+  font-size: 6vh;
+  font-weight: 700;
+}
+
+.primary-accent {
+  color: var(--primary);
+}
+
+.version-tag {
+  padding: 0.5vh 0.9vh;
+  height: fit-content;
+  align-self: center;
+  background-color: var(--primary);
+  border-radius: 1vh;
+  font-size: 2vh;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.events-container {
+  height: calc(100% - calc(min(2.5vh, 16px) + 4vh));
+  padding: 50px 0.5vw 0 0.5vw;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.events {
+  padding-top: 8vh;
+  flex: 1;
+}
+
+.event {
+  display: flex;
+  gap: 2vw;
+  align-items: center;
+  padding: 1vh 1vh 1vh 1.5vw;
+  background-color: var(--event-bg);
+  border-radius: 4vh;
+  box-shadow: 0 0 0.8vh var(--primary-light);
+  font-size: 1rem;
+}
+
+.event-item.type {
+  padding: 2px 4px;
+  border-radius: 6px;
+  font-size: 17.5px;
+  font-weight: 700;
+}
+
+.event-item.team {
+  padding: 2px 4px;
+  border-radius: 6px;
+  background-color: lightskyblue;
+  font-weight: 500;
+}
+
+.event-item.player {
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 19px;
+  font-weight: 600;
+  background-color: var(--white);
+}
+
+.event-item.note {
+  padding: 2px 4px;
+  border-radius: 6px;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gray);
+}
+
+.event-item.timestamp {
+  padding: 2px 4px;
+  border-radius: 6px;
+  color: var(--primary);
+  margin-left: auto;
+}
+
+.event-item {
+  transition: background-color 0.2s;
+}
+
+.event-item:hover {
+  cursor: pointer;
+  background-color: var(--app-bg);
+}
+
+.event-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.event-buttons div {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  border: 0px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.9);
+  transition: transform 0.2s, background-color 0.2s, border 0.2s;
+}
+
+.edit-button:hover {
+  background-color: var(--app-bg);
+}
+
+.delete-button:hover {
+  background-color: var(--red-light);
+  border: 1px solid var(--red);
+}
+
+.event-buttons div:hover {
+  cursor: pointer;
+  transform: scale(1);
+}
+
+.edit-button svg,
+.delete-button svg {
+  height: 60%;
+  margin: auto;
+}
+
+.event-selector-container {
+  position: sticky;
+  bottom: 0;
+  margin: 0 -0.5vw;
+  background: linear-gradient(#0000 3vh, var(--app-bg) 10vh);
+}
+
+.event-selector {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 1px auto;
+  display: flex;
+  gap: 0.7vw;
+  justify-content: center;
+  padding: 2vh;
+  background-color: var(--event-bg);
+  box-shadow: 0 0 0.8vh var(--primary-light);
+  border-radius: 4vh;
+}
+
+.new-event {
+  width: 14vh;
+  height: 15vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3vh;
+  transition: transform 0.2s;
+}
+
+.new-event:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.key-hint {
+  padding: 0.2vh 0;
+  border-radius: 0.6vh;
+  width: 3vh;
+  font-size: 1.8vh;
+  font-weight: 600;
+  text-align: center;
+  color: var(--white);
+  background-color: var(--gray);
+  box-shadow: 0 0.4vh 0 var(--gray-light);
+}
+
+.new-event svg {
+  height: 8vh;
+}
+
+.new-event-name {
+  color: var(--white);
+  font-size: 2vh;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+}
+
+.new-event.shot {
+  border: 1px solid var(--primary);
+  background-color: var(--primary-medium);
+}
+
+.new-event.assist {
+  border: 1px solid var(--gray);
+  background-color: var(--gray-medium);
+}
+
+.new-event.rebound {
+  border: 1px solid var(--purple);
+  background-color: var(--purple-medium);
+}
+
+.new-event.turnover {
+  border: 1px solid var(--secondary);
+  background-color: var(--secondary-medium);
+}
+
+.new-event.foul {
+  border: 1px solid var(--red);
+  background-color: var(--red-medium);
+}
+
+.new-event.defense {
+  border: 1px solid var(--blue);
+  background-color: var(--blue-medium);
+}
+
+.new-event.game {
+  border: 1px solid var(--secondary);
+  background-color: var(--secondary-medium);
+}
+
+.score-clock {
+  height: 100%;
+  padding: 10vh 0 calc(min(2.5vh, 16px) + 4vh) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.team-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.6vh 1.6vw;
+  background-color: var(--event-bg);
+  border-radius: 4vh;
+  box-shadow: 0 0 0.8vh var(--primary-light);
+}
+
+.team-name {
+  font-size: 4vh;
+  font-weight: 600;
+}
+
+.team-stats {
+  font-size: 3vh;
+  font-weight: 500;
+}
+
+.team-stats span {
+  font-weight: 700;
+}
+
+.team-score {
+  font-size: 5vh;
+  font-weight: 600;
+}
+
+.clock-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+  flex: 1;
+  padding: 5vh 1vw 3vh 1vw;
+  background-color: var(--secondary-light);
+  border-radius: 4vh;
+  border: 1px solid var(--secondary-medium);
+  box-shadow: 0 0 0.8vh var(--primary-light);
+}
+
+.clock,
+.clock span {
+  font-size: 7.5vh;
+  font-weight: 600;
+  text-align: center;
+  color: var(--secondary);
+  line-height: 0.6;
+}
+
+.clock-controls {
+  display: flex;
+  width: fit-content;
+  gap: 2vh;
+  margin: 0 auto;
+}
+
+.clock-controls span {
+  width: 8vh;
+  text-align: center;
+  font-size: 3vh;
+  font-weight: 500;
+  color: var(--gray);
+  transition: color 0.2s, font-weight 0.2s;
+}
+
+.clock-controls span:hover {
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clock-adjustments {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5vh;
+  text-align: center;
+}
+
+.clock-adjustments svg {
+  height: 5.3vh;
+  padding: 0.3vh;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: padding 0.2s;
+}
+
+.clock-adjustments svg path {
+  transition: fill 0.2s;
+}
+
+.clock-adjustments svg:hover {
+  padding: 0;
+}
+
+.clock-adjustments svg:hover .adjustment-background {
+  fill: var(--secondary);
+}
+
+.clock-adjustments svg:hover .adjustment-symbol {
+  fill: var(--white);
+}
+
+.clock-adjustments span {
+  font-size: 3vh;
+  font-weight: 700;
+}
+
+.clock-start-stop {
+  margin: auto auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vh;
+}
+
+.clock-button {
+  height: 8vh;
+  padding: 0 2vw;
+  border: 1px solid var(--red);
+  background-color: var(--red-medium);
+  margin: 0 auto;
+  border-radius: 4vh;
+}
+
+.clock.running .clock-button {
+  height: 8vh;
+  padding: 0 2vw;
+  border: 1px solid var(--red);
+  background-color: var(--red-medium);
+}
+
+.clock.stopped .clock-button {
+  height: 9vh;
+  width: 9vh;
+  border-radius: 4.5vh;
+  border: 1px solid var(--secondary);
+  background-color: var(--secondary-light);
+}
+
+.clock-button-text {
+  font-size: 3vh;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 850px) {
+  .app-content * {
+    display: none;
+  }
+
+  .device-warning {
+    display: flex;
+  }
+
+  .device-warning * {
+    display: initial;
+    /* cancel hiding of all elements */
+  }
+}

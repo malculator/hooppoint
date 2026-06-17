@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Game - HoopPoint</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="color"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    .team-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+    }
+    .team-row > div {
+      flex: 1;
+    }
+    .color-input {
+      width: 80px;
+      height: 40px;
+      padding: 0;
+      cursor: pointer;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Create a New Game</h1>
+  
+  <form id="gameForm">
+    <div class="form-group">
+      <label for="team1Name">Team 1 Name</label>
+      <input type="text" id="team1Name" placeholder="e.g., Lakers" required>
+    </div>
+
+    <div class="form-group">
+      <label for="team1Color">Team 1 Color</label>
+      <input type="color" id="team1Color" class="color-input" value="#ffc72c">
+    </div>
+
+    <div class="form-group">
+      <label for="team2Name">Team 2 Name</label>
+      <input type="text" id="team2Name" placeholder="e.g., Celtics" required>
+    </div>
+
+    <div class="form-group">
+      <label for="team2Color">Team 2 Color</label>
+      <input type="color" id="team2Color" class="color-input" value="#007a33">
+    </div>
+
+    <button type="submit" id="createBtn">Create Game</button>
+  </form>
+
+  <div id="error" class="error"></div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+
+    const SUPABASE_URL = "https://tnljltwhstwqocjywnpp.supabase.co"
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_i4gHTmzPaGzUajXTeHWdzA_vx1WqFUI"
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+
+    const form = document.getElementById('gameForm');
+    const errorDiv = document.getElementById('error');
+    const createBtn = document.getElementById('createBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      createBtn.disabled = true;
+      errorDiv.textContent = '';
+
+      const team1Name = document.getElementById('team1Name').value;
+      const team1Color = document.getElementById('team1Color').value;
+      const team2Name = document.getElementById('team2Name').value;
+      const team2Color = document.getElementById('team2Color').value;
+
+      try {
+        const { data: userData } = await supabase.auth.getUser();
+        
+        const { data, error } = await supabase
+          .from("games")
+          .insert({
+            home_team: team1Name,
+            away_team: team2Name,
+            home_team_color: team1Color,
+            away_team_color: team2Color,
+            created_by: userData?.user?.id,
+            status: 'not_started'
+          })
+          .select()
+          .single();
+
+        if (error) throw error;
+
+        window.location.href = `/app.html?game=${data.id}`;
+      } catch (err) {
+        errorDiv.textContent = `Error: ${err.message}`;
+        createBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -14,6 +14,15 @@ async function loadHTML(id, path) {
   }
 }
 
-loadHTML('navbar', '/assets/navbar.html');
-loadHTML('links', '/assets/links.html');
-loadHTML('footer', '/assets/footer.html');
+loadHTML("navbar", "/assets/navbar.html");
+loadHTML("links", "/assets/links.html");
+loadHTML("footer", "/assets/footer.html");
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+
+// Supabase project credentials
+const SUPABASE_URL = "https://tnljltwhstwqocjywnpp.supabase.co"
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_i4gHTmzPaGzUajXTeHWdzA_vx1WqFUI"
+
+// Create client
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)

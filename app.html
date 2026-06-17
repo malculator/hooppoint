@@ -1,3 +1,5 @@
+<!--Needs div id=gameStatus-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,18 +7,207 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <div id="links"></div>
-  <title>PointDesk</title>
+  <title>HoopPoint App</title>
 </head>
 
 <body>
-
-  <main>
-    <div class="content">
-      <h1>Coming Soon</h1>
-      <p><a href="/">Learn more</a></p>
+  <div class="app-header">
+    <div class="app-header-content">
+      <div class="app-logo-container">
+        <div class="app-logo"><span class="primary-accent">hoop</span>point</div>
+        <div class="version-tag">ALPHA</div>
+      </div>
+      <div class="app-header-links">
+        <span data-action="open-popup" data-target="popup-help">Help</span>
+        <span data-action="open-popup" data-target="popup-about">About</span>
+        <div class="auth-actions auth-hidden">
+          <span data-action="open-game-manager">Game Manager</span>
+          <div class="account-container">
+            <button type="button" class="account-button" data-action="open-account-menu">Account</button>
+            <div class="account-menu hidden" id="account-menu">
+              <a class="account-menu-item">My Account</a>
+              <a class="account-menu-item" data-action="sign-out">Sign Out</a>
+            </div>
+          </div>
+        </div>
+        <span class="app-menu-toggle" href="#">☰</span>
+      </div>
     </div>
-  </main>
+  </div>
 
-  <script src="/assets/script.js"></script>
+  <div id="game-setup-modal" class="modal-overlay">
+    <div class="modal-box" id="game-setup-box">
+      <div class="modal-view" data-view="picker">
+        <div id="game-list-wrapper">
+          <h2>Your Games</h2>
+          <div class="modal-actions column">
+            <button class="modal-button" id="open-create-game">Create New Game</button>
+            <ul id="game-list" class="modal-list"></ul>
+            <p id="no-games-message" style="display:none; color: var(--gray);">No scheduled or previous games found.</p>
+            <button class="modal-button tertiary" id="close-game-picker">Close</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-view hidden" data-view="create">
+        <h2>Create a New Game</h2>
+        <p>Enter basic game details and team colors.</p>
+        <form id="gameForm" class="modal-form">
+          <label for="team1Name">Team 1 Name</label>
+          <input type="text" id="team1Name" placeholder="e.g., Lakers" required>
+          <label for="team1Color">Team 1 Color</label>
+          <input type="color" id="team1Color" class="color-input" value="#ffc72c">
+          <label for="team2Name">Team 2 Name</label>
+          <input type="text" id="team2Name" placeholder="e.g., Celtics" required>
+          <label for="gameName">Game Name (optional)</label>
+          <input type="text" id="gameName" placeholder="e.g., Championship Final">
+          <label for="team2Color">Team 2 Color</label>
+          <input type="color" id="team2Color" class="color-input" value="#007a33">
+          <div class="modal-actions row">
+            <button type="submit" id="createBtn" class="modal-button">Create Game</button>
+            <button type="button" class="modal-button secondary" id="cancel-create">Back</button>
+          </div>
+        </form>
+        <div id="modal-error" class="modal-error"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="signin-container" class="signin-container">
+    <div class="signin-form">
+      <h2 class="modal-title"><span class="primary-accent">Welcome back!</span> Please sign in</h2>
+      <p>HoopPoint is in beta. Please reach out to hooppoint@malcolmwood.me to request an account invite.</p>
+      <input type="email" id="email" placeholder="Email" autocomplete="email" required>
+      <div class="password-field">
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
+        <button class="toggle-password" type="button" id="toggle-password" aria-pressed="false" aria-label="Show password">Show</button>
+      </div>
+      <button id="signin-btn" class="signin-button">Sign In</button>
+      <div id="signin-error" class="signin-error"></div>
+    </div>
+  </div>
+
+
+  <div id="app-content" class="app">
+
+    <div class="events-container">
+
+      <div class="events" id="events"></div>
+        <!-- Event items inserted here -->
+
+      <div class="event-selector-container">
+        <div class="event-selector">
+          <div class="new-event shot">
+            <div class="key-hint">1</div>
+            <div data-inline-svg="event-shot"></div>
+            <div class="new-event-name">SHOT</div>
+          </div>
+          <div class="new-event rebound">
+            <div class="key-hint">2</div>
+            <div data-inline-svg="event-rebound"></div>
+            <div class="new-event-name">REBOUND</div>
+          </div>
+          <div class="new-event assist">
+            <div class="key-hint">3</div>
+            <div data-inline-svg="event-assist"></div>
+            <div class="new-event-name">ASSIST</div>
+          </div>
+          <div class="new-event turnover">
+            <div class="key-hint">4</div>
+            <div data-inline-svg="event-turnover"></div>
+            <div class="new-event-name">TURNOVER</div>
+          </div>
+          <div class="new-event foul">
+            <div class="key-hint">5</div>
+            <div data-inline-svg="event-foul"></div>
+            <div class="new-event-name">FOUL</div>
+          </div>
+          <div class="new-event defense">
+            <div class="key-hint">6</div>
+            <div data-inline-svg="event-defense"></div>
+            <div class="new-event-name">DEFENSE</div>
+          </div>
+          <div class="new-event game">
+            <div class="key-hint">7</div>
+            <div data-inline-svg="event-game"></div>
+            <div class="new-event-name">GAME</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="score-clock">
+      <div class="game-name" id="game-name">NBA Final</div>
+      <div id="team-1-box" class="team-box">
+        <div class="team-info">
+          <div id="team-1-name" class="team-name">Team 1</div>
+          <div class="team-stats">
+            Timeouts: <span id="team-1-timeouts">0</span>
+            Fouls: <span id="team-1-fouls">0</span>
+          </div>
+        </div>
+        <div id="team-1-score" class="team-score">0</div>
+      </div>
+      <div id="team-2-box" class="team-box">
+        <div class="team-info">
+          <div id="team-2-name" class="team-name">Team 2</div>
+          <div class="team-stats">
+            Timeouts: <span id="team-2-timeouts">0</span>
+            Fouls: <span id="team-2-fouls">0</span>
+          </div>
+        </div>
+        <div id="team-2-score" class="team-score">0</div>
+      </div>
+      <div class="clock-container">
+        <div class="clock">
+          <span id="clock-minutes">00</span>:<span id="clock-seconds">00</span>.<span id="clock-tenths">0</span>
+        </div>
+        <div class="clock-controls">
+          <span>Clear</span><span>08:00</span>
+        </div>
+        <div class="clock-adjustments">
+          <div data-inline-svg="clock-plus"></div>
+          <div data-inline-svg="clock-plus"></div>
+          <div data-inline-svg="clock-plus"></div>
+          <span>MIN</span>
+          <span>SEC</span>
+          <span>1/10</span>
+          <div data-inline-svg="clock-minus"></div>
+          <div data-inline-svg="clock-minus"></div>
+          <div data-inline-svg="clock-minus"></div>
+        </div>
+        <div class="clock-start-stop">
+          <button class="clock-button">
+            <div id="clock-button-symbol"></div>
+          </button>
+          <span id="clock-button-text" class="clock-button-text">STOP</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="app-notice">© 2026 | <a href="/legal">Legal</a></div>
+  <div class="device-warning">
+    <div class="app-logo"><span class="primary-accent">hoop</span>point</div>
+    <div>HoopPoint currently only supports desktop use.</div>
+    <div>Mobile support is coming soon.</div>
+  </div>
+  </div>
+
+  <script type="module" src="/assets/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const pwd = document.getElementById('password');
+      const btn = document.getElementById('toggle-password');
+      if (!pwd || !btn) return;
+      btn.addEventListener('click', function () {
+        const isText = pwd.type === 'text';
+        pwd.type = isText ? 'password' : 'text';
+        btn.textContent = isText ? 'Show' : 'Hide';
+        btn.setAttribute('aria-pressed', String(!isText));
+        btn.setAttribute('aria-label', isText ? 'Show password' : 'Hide password');
+      });
+    });
+  </script>
 </body>
+
 </html>

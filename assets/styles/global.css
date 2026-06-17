@@ -1,0 +1,60 @@
+:root {
+  /* Dynamic colors (inverted for dark theme) */
+  --primary: #f38d12;
+  --primary-medium: #f1bb78;
+  --primary-light: #ffd7a7;
+  --secondary: #109490;
+  --secondary-medium: #58c1be;
+  --secondary-light-2: #b1f1ee;
+  --secondary-light: #cbf7f5;
+  --blue: #0d2882;
+  --blue-medium: #849cec;
+  --red: #e12f2f;
+  --red-medium: #f79292;
+  --red-light: #fad2d2;
+  --purple: #8f15ae;
+  --purple-medium: #df8ff3;
+  --almost-black: #272f35;
+  --gray: #4f585e;
+  --gray-medium: #a7b0b7;
+  --gray-light: #d0d7dc;
+  --white: #fff;
+
+  --app-bg: #ffe7c7;
+  --input-bg: #f8ebda;
+  --item-bg: #fff4e6;
+  --modal-overlay: #ffe7c7aa;
+  --modal-bg: var(--item-bg);
+  --event-bg: var(--item-bg);
+  --text: var(--almost-black);
+  --secondary-button: var(--gray-light);
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/Montserrat/Montserrat-VariableFont_wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  color: var(--text);
+}
