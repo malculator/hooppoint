@@ -1,10 +1,20 @@
+:root {
+  --app-width: clamp(76vw, calc(50vw + 400px), 100vw);
+}
+
 html,
 body {
   overflow-y: hidden;
   background-color: var(--app-bg);
+  font-weight: 500;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   font-weight: 700;
   color: var(--text);
@@ -28,7 +38,8 @@ p {
   color: var(--text);
 }
 
-input, button {
+input,
+button {
   font-family: "Montserrat", sans-serif;
   font-weight: 500;
   color: var(--text);
@@ -268,7 +279,7 @@ input, button {
 .app-header-content {
   display: flex;
   justify-content: space-between;
-  width: clamp(76vw, calc(50vw + 400px), 100vw);
+  width: var(--app-width);
   margin: 0 auto;
   padding: 1vh 0;
 }
@@ -411,7 +422,7 @@ input, button {
 
 .app {
   height: 100vh;
-  width: clamp(76vw, calc(50vw + 400px), 100vw);
+  width: var(--app-width);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 5fr 2fr;
@@ -449,7 +460,7 @@ input, button {
 
 .events-container {
   height: calc(100% - calc(min(2.5vh, 16px) + 4vh));
-  padding: 50px 0.5vw 0 0.5vw;
+  padding: 10vh 0.5vw 0 0.5vw;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -457,7 +468,6 @@ input, button {
 }
 
 .events {
-  padding-top: 8vh;
   flex: 1;
 }
 
@@ -661,6 +671,15 @@ input, button {
   gap: 2vh;
 }
 
+.current-game-name {
+  font-size: 4vh;
+  font-weight: 700;
+  width: calc(calc(calc(var(--app-width) - 3vw) * calc(2 / 7)) - 1.5vw);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .team-box {
   display: flex;
   justify-content: space-between;
@@ -672,7 +691,7 @@ input, button {
 }
 
 .team-name {
-  font-size: 4vh;
+  font-size: 3.5vh;
   font-weight: 600;
 }
 
